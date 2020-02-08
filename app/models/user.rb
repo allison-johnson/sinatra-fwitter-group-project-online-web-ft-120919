@@ -4,5 +4,14 @@ class User < ActiveRecord::Base
   validates :username, presence: true
   validates :email, presence: true
   validates :password, presence: true
-  #validates_presence_of :username, :email, :password 
-end
+  
+  def slug 
+    str = self.username
+    arr = str.split(" ")
+    arr.map{|word| word.downcase}.join("-")
+  end #slug
+
+  def self.find_by_slug(slug_name)
+    self.all.find{|user| user.slug == slug_name}
+  end #self.find_by_slug
+end #class
